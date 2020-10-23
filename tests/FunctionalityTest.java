@@ -17,20 +17,20 @@ public class FunctionalityTest {
 
     @Test
     public void testBasic() {
-        Accumulator accumulatorForTest = new OptimizedAccumulator();
+        Accumulator accumulator = new OptimizedAccumulator();
         byte[] test = {1, 2, 3, 4, 5};
         byte[] test2 = {1, 5, 3, 4, 5};
         byte[] test3 = {1, 12, 3, 4, 5};
 
         User user = new User();
         User user2 = new User();
-        Proof proof = accumulatorForTest.add(test, user);
+        accumulator.add(test, user);
         // user.sendProof(proof);
-        accumulatorForTest.add(test2, user2);
+        accumulator.add(test2, user2);
         //  user2.sendProof(new Proof(12));
-        accumulatorForTest.add(test2, user2);
+        accumulator.add(test2, user2);
         //   user2.sendProof(new Proof(34));
-        Assert.assertTrue(accumulatorForTest.verify(test, user.getProof()));
+        Assert.assertTrue(accumulator.verify(test, user.getProof()));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class FunctionalityTest {
     }
 
     @Test
-    public void testManyMerkle() {
+    public void testManyBasic() {
         List<User> users = new ArrayList<>();
         Accumulator accumulatorForTest = new MerkleTree();
         List<byte[]> messages = new ArrayList<>();

@@ -45,7 +45,7 @@ public class MerkleTree implements Accumulator {
     }
 
     @Override
-    public Proof add(byte[] value, User author) {
+    public void add(byte[] value, User author) {
         if (size < nodes.size()) {
             nodes.get(size).setAuthor(author);
             nodes.get(size).setHash(Utils.generateValueHash(value));
@@ -63,9 +63,7 @@ public class MerkleTree implements Accumulator {
             }
             Node rightNode = queue.poll();
             head = new Node(head, rightNode);
-            return add(value, author);
+            add(value, author);
         }
-        return null;
     }
-
 }

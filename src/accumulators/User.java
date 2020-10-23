@@ -7,7 +7,7 @@ public class User {
         proof = new Proof(90);
     }
 
-    public void sendProof(Proof proof) {
+    public void acceptProof(Proof proof) {
         this.proof = proof;
     }
 

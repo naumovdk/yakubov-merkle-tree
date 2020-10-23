@@ -50,7 +50,7 @@ public class Node {
     private void sendProof(Proof proof) {
         if (isLeaf()) {
             if (author != null) {
-                author.sendProof(proof);
+                author.acceptProof(proof);
             }
         } else {
             var proofForLeft = new Proof(proof);

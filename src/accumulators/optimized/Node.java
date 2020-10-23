@@ -36,7 +36,7 @@ class Node {
         return right;
     }
 
-    public Node getAncestor() {
+    Node getAncestor() {
         return ancestor;
     }
 }

@@ -12,8 +12,7 @@ public class OptimizedAccumulator implements Accumulator {
     private List<Node> nodes = new ArrayList<>();
     private Map<Node, User> authors = new HashMap<>();
 
-    public OptimizedAccumulator() {
-    }
+    public OptimizedAccumulator() {}
 
     @Override
     public boolean verify(byte[] value, Proof proof) {
@@ -41,18 +40,17 @@ public class OptimizedAccumulator implements Accumulator {
     }
 
     @Override
-    public Proof add(byte[] value, User author) {
+    public void add(byte[] value, User author) {
         Node node = new Node(value);
         nodes.add(node);
         authors.put(node, author);
-        Proof proof = new Proof(nodes.size() - 1);
-        author.sendProof(proof);
+        Proof emptyProof = new Proof(nodes.size() - 1);
+        author.acceptProof(emptyProof);
         int i = 0;
         for (; i < roots.size() && roots.get(i) != null; i++) {
             update(node, roots.get(i).getHash());
             update(roots.get(i), node.getHash());
             node = new Node(roots.get(i), node);
-            //proof.add(roots.get(i).getHash());
             roots.set(i, null);
         }
         if (i >= roots.size()) {
@@ -60,7 +58,6 @@ public class OptimizedAccumulator implements Accumulator {
         } else {
             roots.set(i, node);
         }
-        return proof;
     }
 
     private void update(Node node, byte[] update) {
