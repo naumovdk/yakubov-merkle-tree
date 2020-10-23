@@ -9,6 +9,14 @@ public class Proof extends ArrayList<byte[]> {
         this.index = index;
     }
 
+    public Proof(Proof proof) {
+        super(proof);
+        index = 0;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public int getIndex() {
         return index;

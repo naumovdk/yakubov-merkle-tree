@@ -3,7 +3,7 @@ package accumulators.optimized;
 import accumulators.Utils;
 
 class Node {
-    private byte[] hash;
+    private final byte[] hash;
     private Node left = null;
     private Node right = null;
     private Node ancestor = null;

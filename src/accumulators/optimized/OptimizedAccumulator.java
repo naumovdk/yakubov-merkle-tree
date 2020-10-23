@@ -17,6 +17,8 @@ public class OptimizedAccumulator implements Accumulator {
 
     @Override
     public boolean verify(byte[] value, Proof proof) {
+        if (value == null || proof == null)
+            return false;
         int id = proof.getIndex();
         if (id > nodes.size()) {
             return false;

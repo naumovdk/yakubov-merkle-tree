@@ -22,6 +22,8 @@ public class Utils {
     }
 
     public static byte[] generateValueHash(byte[] value) {
+        if (value == null)
+            return null;
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             outputStream.write(zero);

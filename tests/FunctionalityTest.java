@@ -1,6 +1,7 @@
 import accumulators.Accumulator;
 import accumulators.Proof;
 import accumulators.User;
+import accumulators.basic.MerkleTree;
 import accumulators.optimized.OptimizedAccumulator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class FunctionalityTest {
     }
 
     @Test
-    public void testMany() {
+    public void testManyOptimized() {
         List<User> users = new ArrayList<>();
         Accumulator accumulatorForTest = new OptimizedAccumulator();
         List<byte[]> messages = new ArrayList<>();
@@ -46,7 +47,36 @@ public class FunctionalityTest {
             accumulatorForTest.add(msg, users.get(i));
         }
         for (int i = 0; i < 15000; i++) {
+            byte[] falseMsg = new byte[500];
+            random.nextBytes(falseMsg);
             Assert.assertTrue(accumulatorForTest.verify(messages.get(i), users.get(i).getProof()));
+            Assert.assertFalse(accumulatorForTest.verify(falseMsg, users.get(i).getProof()));
+            Assert.assertFalse(accumulatorForTest.verify(falseMsg, null));
+
+        }
+    }
+
+    @Test
+    public void testManyMerkle() {
+        List<User> users = new ArrayList<>();
+        Accumulator accumulatorForTest = new MerkleTree();
+        List<byte[]> messages = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 15000; i++) {
+            byte[] msg = new byte[500];
+            random.nextBytes(msg);
+            messages.add(msg);
+            users.add(new User());
+            accumulatorForTest.add(msg, users.get(i));
+        }
+        for (int i = 0; i < 15000; i++) {
+            byte[] falseMsg = new byte[500];
+            random.nextBytes(falseMsg);
+            users.get(i).getProof().setIndex(i);
+            Assert.assertTrue(accumulatorForTest.verify(messages.get(i), users.get(i).getProof()));
+            Assert.assertFalse(accumulatorForTest.verify(falseMsg, users.get(i).getProof()));
+            Assert.assertFalse(accumulatorForTest.verify(falseMsg, null));
+
         }
     }
 }
