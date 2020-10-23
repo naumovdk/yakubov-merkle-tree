@@ -3,22 +3,39 @@ package accumulators.optimized;
 import accumulators.Accumulator;
 import accumulators.User;
 import accumulators.Proof;
+import accumulators.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OptimizedAccumulator implements Accumulator {
     private List<Node> roots = new ArrayList<>();
     private List<Node> nodes = new ArrayList<>();
     private Map<Node, User> authors = new HashMap<>();
 
-    public OptimizedAccumulator() {}
+    public OptimizedAccumulator() {
+    }
 
     @Override
     public boolean verify(byte[] value, Proof proof) {
-
+        int id = proof.getIndex();
+        if (id > nodes.size()) {
+            return false;
+        }
+        byte[] currentHash = Utils.generateValueHash(value);
+        Node cur = nodes.get(id);
+        for (byte[] hash : proof) {
+            Node parent = cur.getAncestor();
+            if (parent == null) {
+                return false;
+            }
+            if (parent.getLeft() == cur) {
+                currentHash = Utils.generateNodeHash(currentHash, hash);
+            } else {
+                currentHash = Utils.generateNodeHash(hash, currentHash);
+            }
+            cur = parent;
+        }
+        return cur.getAncestor() == null && Arrays.equals(currentHash, cur.getHash());
     }
 
     @Override
@@ -27,6 +44,7 @@ public class OptimizedAccumulator implements Accumulator {
         nodes.add(node);
         authors.put(node, author);
         Proof proof = new Proof(nodes.size() - 1);
+        author.sendProof(proof);
         int i = 0;
         for (; i < roots.size() && roots.get(i) != null; i++) {
             update(node, node.getHash());

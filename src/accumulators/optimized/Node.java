@@ -35,4 +35,8 @@ class Node {
     Node getRight() {
         return right;
     }
+
+    public Node getAncestor() {
+        return ancestor;
+    }
 }

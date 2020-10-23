@@ -1,7 +1,7 @@
 package accumulators;
 
 public interface Accumulator {
-    boolean verify(byte[] value,Proof proof);
+    public boolean verify(byte[] value, Proof proof);
 
-    Proof add(byte[] value, User author);
+    public Proof add(byte[] value, User author);
 }
