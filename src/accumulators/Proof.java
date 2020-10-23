@@ -9,6 +9,7 @@ public class Proof extends ArrayList<byte[]> {
         this.index = index;
     }
 
+
     public int getIndex() {
         return index;
     }
