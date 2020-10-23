@@ -6,6 +6,7 @@ class Node {
     private byte[] hash;
     private Node left = null;
     private Node right = null;
+    private Node ancestor = null;
 
     Node(byte[] value) {
         this.hash = Utils.generateValueHash(value);
@@ -14,22 +15,24 @@ class Node {
     Node(Node left, Node right) {
         this.hash = Utils.generateNodeHash(left.getHash(), right.getHash());
         this.left = left;
+        left.ancestor = this;
         this.right = right;
+        right.ancestor = this;
     }
 
-    public boolean isLeaf() {
+    boolean isLeaf() {
         return left == null && right == null;
     }
 
-    public Node getLeft() {
+    Node getLeft() {
         return left;
     }
 
-    public byte[] getHash() {
+    byte[] getHash() {
         return hash;
     }
 
-    public Node getRight() {
+    Node getRight() {
         return right;
     }
 }

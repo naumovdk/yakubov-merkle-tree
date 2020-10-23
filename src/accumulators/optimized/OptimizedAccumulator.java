@@ -43,7 +43,10 @@ public class OptimizedAccumulator implements Accumulator {
 
     private void update(Node node, byte[] update) {
         if (node.isLeaf()) {
-
+            authors.get(node).acceptUpdate(update);
+        } else {
+            update(node.getLeft(), update);
+            update(node.getRight(), update);
         }
     }
 }
