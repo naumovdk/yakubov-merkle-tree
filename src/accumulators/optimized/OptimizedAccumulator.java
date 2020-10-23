@@ -47,14 +47,16 @@ public class OptimizedAccumulator implements Accumulator {
         author.sendProof(proof);
         int i = 0;
         for (; i < roots.size() && roots.get(i) != null; i++) {
-            update(node, node.getHash());
+            update(node, roots.get(i).getHash());
+            update(roots.get(i), node.getHash());
             node = new Node(roots.get(i), node);
-            proof.add(roots.get(i).getHash());
+            //proof.add(roots.get(i).getHash());
+            roots.set(i, null);
         }
         if (i >= roots.size()) {
             roots.add(node);
         } else {
-            roots.add(i, node);
+            roots.set(i, node);
         }
         return proof;
     }
