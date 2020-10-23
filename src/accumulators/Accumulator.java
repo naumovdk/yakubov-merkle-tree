@@ -1,3 +1,5 @@
+package accumulators;
+
 public interface Accumulator {
     boolean verify(byte[] value,Proof proof);
 

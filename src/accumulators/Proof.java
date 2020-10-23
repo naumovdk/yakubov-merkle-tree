@@ -1,3 +1,5 @@
+package accumulators;
+
 import java.util.ArrayList;
 
 public class Proof extends ArrayList<byte[]> {
